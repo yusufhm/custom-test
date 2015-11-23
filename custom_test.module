@@ -68,6 +68,8 @@ function _custom_test_get_logged_in_username() {
 function _custom_test_list_enabled_modules() {
   // set $sort to TRUE to get an alphabetical list
   $modules = module_list(FALSE, FALSE, TRUE);
+  // we could also use system_list() instead above
+  // if we needed additional module information
   $modules_str = implode(', ', array_values($modules));
   return $modules_str;
 }
