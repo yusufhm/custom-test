@@ -57,7 +57,7 @@ function custom_test_block_view($delta = '') {
 function _custom_test_get_logged_in_username() {
   global $user;
   if ($user->uid != 0) {
-    return $user->name;
+    return check_plain($user->name);
   }
   return '';
 }
