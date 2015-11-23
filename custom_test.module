@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * @file
+ * Provide a block that contains:
+ *   - the name of the logged in user
+ *   - a list of modules enabled on the site
+ *   - the teaser of 3 standard page nodes with titles starting with 'The'.
+ *
+ * Also provides a theme function for flexibility to override the markup.
+ */
+
+/**
+ * Implements hook_block_info().
+ *
+ * Provide Drupal information about the hook.
+ */
+function custom_test_block_info() {
+  $blocks['custom_test'] = array(
+    'info' => t('Custom test'),
+    // The block is assumed to be the same for every
+    // user on every page where it is visible.
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * Gets the content of the block from a theme function.
+ */
+function custom_test_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'custom_test':
+      $block['subject'] = t('Custom test');
+      $block['content'] = array(
+        '#markup' => theme(
+          'custom_test',
+          array(
+            'username' => _custom_test_get_logged_in_username(),
+            'modules' => _custom_test_list_enabled_modules(),
+            'teasers' => _custom_test_get_teasers()
+          )
+        )
+      );
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Helper function to get the name of the logged in user
+ */
+function _custom_test_get_logged_in_username() {
+  global $user;
+  if ($user->uid != 0) {
+    return $user->name;
+  }
+  return '';
+}
+
+/**
+ * Helper function to get a list of enabled modules
+ */
+function _custom_test_list_enabled_modules() {
+  // set $sort to TRUE to get an alphabetical list
+  $modules = module_list(FALSE, FALSE, TRUE);
+  $modules_str = implode(', ', array_values($modules));
+  return $modules_str;
+}
+
+/**
+ * Helper function to get list of 3 teasers of page nodes
+ * with titles starting with 'The'
+ */
+function _custom_test_get_teasers() {
+  $teasers = array();
+  return $teasers;
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Provides a theme function for our
+ * block with defaults for the variables.
+ */
+function custom_test_theme($existing, $type, $theme, $path) {
+  return array(
+    'custom_test' => array(
+      'variables' => array(
+        'username' => '',
+        'modules' => array(),
+        'teasers' => array(),
+      ),
+      'template' => 'custom-test'
+    ),
+  );
+}

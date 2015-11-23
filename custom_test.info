@@ -1,0 +1,4 @@
+name = Custom test
+description = "Provides a block containing the name of the logged in user, a list of enabled modules and a list of 3 standard page teasers"
+package = Test
+core = 7.x
