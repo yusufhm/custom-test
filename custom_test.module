@@ -80,6 +80,21 @@ function _custom_test_list_enabled_modules() {
  */
 function _custom_test_get_teasers() {
   $teasers = array();
+
+  // get the list of node ids
+  $query = new EntityFieldQuery;
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('entity_condition', 'page')
+    ->propertyCondition('status', 1)
+    ->propertyCondition('title', 'The', 'STARTS_WITH');
+
+  $result = $query->execute();
+  if (!empty($result['node'])) {
+    // load the nodes and the teaser views
+    $nodes = node_load_multiple(array_keys($result['node']));
+    $teasers = node_view_multiple($nodes);
+  }
   return $teasers;
 }
 

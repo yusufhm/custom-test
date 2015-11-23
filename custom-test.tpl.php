@@ -13,14 +13,14 @@
   <?php endif; ?>
   <?php if ($modules): ?>
     <div class="modules">
-      <span>Installed modules: </span><br>
-      <?php print $modules; ?>
+      <span>Installed modules: </span>
+      <div class="modules-list"><?php print $modules; ?></div>
     </div>
   <?php endif; ?>
   <?php if ($teasers): ?>
     <div class="teasers">
-      <span>Latest 'The' pages:</span><br>
-      <?php print $teasers; ?>
+      <span>Latest 'The' pages:</span>
+      <?php print drupal_render($teasers); ?>
     </div>
   <?php endif; ?>
 </section>
