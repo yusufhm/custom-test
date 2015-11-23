@@ -44,7 +44,10 @@ function custom_test_block_view($delta = '') {
             'modules' => _custom_test_list_enabled_modules(),
             'teasers' => _custom_test_get_teasers()
           )
-        )
+        ),
+        '#attached' => array(
+          'css' => array(drupal_get_path('module', 'custom_test') . '/custom-test.css'),
+        ),
       );
       break;
   }
