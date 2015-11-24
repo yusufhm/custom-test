@@ -90,14 +90,31 @@ function _custom_test_get_teasers() {
     ->entityCondition('entity_type', 'node')
     ->entityCondition('entity_condition', 'page')
     ->propertyCondition('status', 1)
-    ->propertyCondition('title', 'The', 'STARTS_WITH')
-    ->range(0, 3);
+    // This condition is case-insensitive.
+    // Retrieving all and then filtering in the loop.
+    ->propertyCondition('title', 'The', 'STARTS_WITH');
 
   $result = $query->execute();
   if (!empty($result['node'])) {
     // load the nodes and the teaser views
     $nodes = node_load_multiple(array_keys($result['node']));
-    $teasers = node_view_multiple($nodes);
+    $nodes_to_view = array();
+    $count = 0;
+
+    // loop to filter out nodes with title starting with 'The'
+    foreach ($nodes as $nid => $node) {
+      $title_words = explode(' ', $node->title);
+      if ($title_words[0] == 'The') {
+        $nodes_to_view[$nid] = $node;
+        $count++;
+      }
+      if ($count == 3) {
+        break;
+      }
+    }
+    if ($nodes_to_view) {
+      $teasers = node_view_multiple($nodes_to_view);
+    }
   }
   return $teasers;
 }
