@@ -90,7 +90,8 @@ function _custom_test_get_teasers() {
     ->entityCondition('entity_type', 'node')
     ->entityCondition('entity_condition', 'page')
     ->propertyCondition('status', 1)
-    ->propertyCondition('title', 'The', 'STARTS_WITH');
+    ->propertyCondition('title', 'The', 'STARTS_WITH')
+    ->range(0, 3);
 
   $result = $query->execute();
   if (!empty($result['node'])) {
