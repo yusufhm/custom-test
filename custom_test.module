@@ -18,9 +18,9 @@
 function custom_test_block_info() {
   $blocks['custom_test'] = array(
     'info' => t('Custom test'),
-    // The block is assumed to be the same for every
-    // user on every page where it is visible.
-    'cache' => DRUPAL_CACHE_GLOBAL,
+    // Since the block contains the current user's
+    // name, it has to be cached per user.
+    'cache' => DRUPAL_CACHE_PER_USER,
   );
 
   return $blocks;
